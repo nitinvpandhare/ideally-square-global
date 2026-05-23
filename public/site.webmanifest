@@ -1,0 +1,15 @@
+{
+  "name": "Ideally Square Global",
+  "short_name": "iSG",
+  "icons": [
+    {
+      "src": "Logo/Domain mark 2500 px.png",
+      "sizes": "2500x2500",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0A0A0A",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}
+

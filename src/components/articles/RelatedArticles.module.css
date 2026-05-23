@@ -1,0 +1,25 @@
+.section {
+  background: var(--color-cream);
+  padding: 60px 24px;
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.heading {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  color: var(--color-midnight);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}

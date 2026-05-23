@@ -1,0 +1,62 @@
+.button {
+  position: fixed;
+  /* ContactFab top: 100px + 48px = 148px → ScrollToTop above */
+  bottom: 160px;
+  right: 32px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-midnight);
+  color: var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 99;
+  transition: background var(--transition-fast);
+}
+
+.button:hover {
+  background: var(--color-gold);
+  color: var(--color-midnight);
+}
+
+/* Tablet — ContactFab top: 88px + 46px = 134px */
+@media (max-width: 768px) {
+  .button {
+    bottom: 146px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Mobile L — ContactFab top: 80px + 44px = 124px */
+@media (max-width: 425px) {
+  .button {
+    bottom: 136px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Mobile S — ContactFab top: 72px + 42px = 114px */
+@media (max-width: 375px) {
+  .button {
+    bottom: 126px;
+    right: 16px;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* Mobile M — ContactFab top: 72px + 40px = 112px */
+@media (max-width: 325px) {
+  .button {
+    bottom: 124px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+  }
+}

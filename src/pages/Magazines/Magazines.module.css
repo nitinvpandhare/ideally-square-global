@@ -1,0 +1,156 @@
+/* ── Page hero ───────────────────────────────────────────────────────────── */
+.pageHeader {
+  background: #080810;
+  padding: 120px 24px 90px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.pageHeader::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,169,97,0.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+.pageHeader::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(201,169,97,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.container {
+  max-width: 780px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.label {
+  display: inline-block;
+  color: var(--color-gold);
+  font-size: 11px;
+  letter-spacing: 5px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding: 5px 14px;
+  border: 1px solid rgba(201,169,97,0.28);
+  border-radius: 999px;
+  background: rgba(201,169,97,0.06);
+}
+
+.heading {
+  color: #fff;
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  font-weight: 600;
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+
+.description {
+  color: rgba(245,242,236,0.6);
+  font-size: 15px;
+  line-height: 1.75;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── Sticky filters bar ──────────────────────────────────────────────────── */
+.filtersBar {
+  background: rgba(255,255,255,0.98);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border-dark);
+  padding: 16px 24px;
+  position: sticky;
+  top: var(--header-height, 72px);
+  z-index: 10;
+}
+
+.filtersInner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.searchWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+}
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  width: 15px;
+  height: 15px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+.searchInput {
+  width: 100%;
+  padding: 9px 34px 9px 34px;
+  border: 1px solid var(--color-border-dark);
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--color-midnight);
+  background: var(--color-cream);
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+.searchInput:focus { border-color: var(--color-gold); }
+.searchInput::placeholder { color: var(--color-text-muted); }
+.searchClear {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+.searchClear:hover { color: var(--color-midnight); }
+
+.categories { display: flex; gap: 8px; flex-wrap: wrap; }
+.catBtn {
+  padding: 7px 16px;
+  border: 1px solid rgba(201,169,97,0.25);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.catBtn:hover { border-color: var(--color-gold); color: var(--color-midnight); }
+.catActive {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: var(--color-midnight);
+  font-weight: 700;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .filtersBar { padding: 12px 16px; }
+  .filtersInner { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .searchWrap { max-width: 100%; width: 100%; }
+  .pageHeader { padding: 90px 16px 60px; }
+}

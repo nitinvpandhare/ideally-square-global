@@ -1,0 +1,41 @@
+:root {
+  --color-midnight: #0A0A0A;
+  --color-charcoal: #1A1A1A;
+  --color-gold: #C9A961;
+  --color-gold-hover: #D4B574;
+  --color-bronze: #B8935A;
+  --color-cream: #F5F2EC;
+  --color-white: #FFFFFF;
+  --color-text-muted: #888888;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-dark: rgba(201, 169, 97, 0.2);
+
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'SF Mono', Menlo, Monaco, monospace;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+
+  --container-max: 1280px;
+  --header-height: 72px;
+
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.6s ease;
+
+  --z-header: 100;
+  --z-modal: 1000;
+  --z-toast: 2000;
+}
+

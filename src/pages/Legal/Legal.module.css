@@ -1,0 +1,427 @@
+/* ── Page wrapper ────────────────────────────────────────────────────────── */
+.section {
+  background: #EEEAE2;
+  padding: 60px 24px 80px;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ── Dark luxury sidebar ─────────────────────────────────────────────────── */
+.sidebar {
+  background: #080810;
+  border-radius: 16px;
+  padding: 36px 26px 40px;
+  position: sticky;
+  top: calc(var(--header-height, 72px) + 24px);
+  background-image: radial-gradient(rgba(201, 169, 97, 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+}
+
+.tocTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin: 0 0 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(201, 169, 97, 0.15);
+}
+
+.tocList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tocLink {
+  display: block;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.38);
+  text-decoration: none;
+  padding: 7px 0 7px 14px;
+  border-left: 2px solid transparent;
+  transition: color 0.22s ease, border-color 0.22s ease, padding-left 0.22s ease;
+}
+
+.tocLink:hover {
+  color: var(--color-gold);
+  border-left-color: var(--color-gold);
+  padding-left: 18px;
+}
+
+/* ── Main white card ─────────────────────────────────────────────────────── */
+.main {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 0 56px 60px;
+  box-shadow: 0 2px 32px rgba(0, 0, 0, 0.07);
+  min-width: 0;
+  counter-reset: pol;
+}
+
+/* ── Section blocks ──────────────────────────────────────────────────────── */
+.sectionBlock {
+  position: relative;
+  padding: 52px 0;
+  border-bottom: 1px solid;
+  border-image: linear-gradient(
+    90deg,
+    rgba(201, 169, 97, 0.35) 0%,
+    rgba(201, 169, 97, 0.08) 55%,
+    transparent
+  ) 1;
+  overflow: hidden;
+}
+
+.sectionBlock:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Large watermark number behind each numbered section */
+.sectionBlock:not(#intro) {
+  counter-increment: pol;
+}
+
+.sectionBlock:not(#intro)::before {
+  content: counter(pol, decimal-leading-zero);
+  position: absolute;
+  top: 28px;
+  right: -8px;
+  font-size: 110px;
+  font-weight: 800;
+  font-family: var(--font-serif);
+  color: rgba(201, 169, 97, 0.055);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* ── Section header ──────────────────────────────────────────────────────── */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.sectionNum {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 14px;
+  background: rgba(201, 169, 97, 0.1);
+  border: 1px solid rgba(201, 169, 97, 0.35);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--color-gold);
+}
+
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+  color: var(--color-midnight);
+  margin: 0;
+  line-height: 1.25;
+  position: relative;
+  z-index: 1;
+}
+
+/* intro block — no badge, bigger title */
+#intro {
+  padding-top: 52px;
+}
+
+#intro .sectionTitle {
+  font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+  margin-bottom: 20px;
+  padding-left: 18px;
+  border-left: 3px solid var(--color-gold);
+}
+
+/* ── Sub-headings (1.1, 1.2 …) ──────────────────────────────────────────── */
+.subHeading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin: 28px 0 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.subHeading::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: var(--color-gold);
+  flex-shrink: 0;
+}
+
+/* ── Body text ───────────────────────────────────────────────────────────── */
+.para {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--color-midnight);
+  opacity: 0.82;
+  margin: 0 0 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.para:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Bullet list ─────────────────────────────────────────────────────────── */
+.bulletList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  position: relative;
+  z-index: 1;
+}
+
+.bulletList:last-child {
+  margin-bottom: 0;
+}
+
+.bulletList li {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--color-midnight);
+  opacity: 0.82;
+  padding-left: 22px;
+  position: relative;
+}
+
+.bulletList li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  flex-shrink: 0;
+}
+
+.bulletList li strong {
+  color: var(--color-midnight);
+  opacity: 1;
+  font-weight: 600;
+}
+
+/* ── Callout — "We do not sell…" ─────────────────────────────────────────── */
+.callout {
+  background: #080810;
+  border-left: 3px solid var(--color-gold);
+  border-radius: 0 10px 10px 0;
+  padding: 18px 22px;
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1.65;
+  color: rgba(245, 242, 236, 0.88);
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Inline links ────────────────────────────────────────────────────────── */
+.inlineLink {
+  color: var(--color-gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.inlineLink:hover {
+  color: var(--color-bronze);
+}
+
+/* ── Contact card — dark premium ─────────────────────────────────────────── */
+.contactCard {
+  background: #080810;
+  border-radius: 14px;
+  padding: 44px 40px !important;
+  border: none !important;
+  border-image: none !important;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0;
+}
+
+.contactCard::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-gold), rgba(201, 169, 97, 0.2), transparent);
+  z-index: 1;
+  font-size: 0 !important;
+}
+
+.contactCard .sectionNum {
+  background: rgba(201, 169, 97, 0.12);
+  border-color: rgba(201, 169, 97, 0.3);
+}
+
+.contactCard .sectionTitle {
+  color: #ffffff;
+}
+
+.contactCard .para {
+  color: rgba(245, 242, 236, 0.6);
+}
+
+.contactDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 24px;
+  border: 1px solid rgba(201, 169, 97, 0.18);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.contactRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+  transition: background 0.2s ease;
+}
+
+.contactRow:last-child {
+  border-bottom: none;
+}
+
+.contactRow:hover {
+  background: rgba(201, 169, 97, 0.05);
+}
+
+.contactLabel {
+  flex-shrink: 0;
+  width: 110px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.contactRow span:not(.contactLabel),
+.contactRow a {
+  font-size: 14px;
+  color: rgba(245, 242, 236, 0.75);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .main {
+    padding: 0 36px 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .sidebar {
+    position: static;
+    padding: 24px 22px 28px;
+  }
+
+  .tocList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 20px;
+  }
+
+  .main {
+    padding: 0 28px 44px;
+  }
+
+  .sectionBlock:not(#intro)::before {
+    font-size: 80px;
+    opacity: 0.04;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 32px 14px 60px;
+  }
+
+  .tocList {
+    grid-template-columns: 1fr;
+  }
+
+  .main {
+    padding: 0 20px 36px;
+    border-radius: 12px;
+  }
+
+  .sectionBlock {
+    padding: 36px 0;
+  }
+
+  #intro {
+    padding-top: 36px;
+  }
+
+  .contactCard {
+    padding: 28px 20px !important;
+  }
+
+  .contactLabel {
+    width: 80px;
+  }
+
+  .sectionBlock:not(#intro)::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tocLink {
+    transition: none;
+  }
+}

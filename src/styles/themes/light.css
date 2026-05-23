@@ -1,0 +1,13 @@
+[data-theme='light'] {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F5F2EC;
+  --bg-tertiary: #EFEBE3;
+  --text-primary: #0A0A0A;
+  --text-secondary: #555555;
+  --text-muted: #888888;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --accent: #C9A961;
+  --accent-hover: #D4B574;
+
+}
+

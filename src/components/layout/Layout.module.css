@@ -1,0 +1,27 @@
+.main {
+  min-height: calc(100vh - 400px);
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  min-width: 0;
+}
+
+.sidebar {
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+}
+
+@media (max-width: 1024px) {
+  .contentWrapper {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .sidebar {
+    order: 2;
+    margin-top: 2rem;
+  }
+}

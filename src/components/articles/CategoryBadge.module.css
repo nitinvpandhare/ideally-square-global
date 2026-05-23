@@ -1,0 +1,27 @@
+.badge {
+  display: inline-block;
+  color: var(--color-gold);
+  background: rgba(201, 169, 97, 0.1);
+  border: 1px solid var(--color-gold);
+  border-radius: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.sm {
+  font-size: 10px;
+  padding: 4px 10px;
+  letter-spacing: 1.5px;
+}
+
+.md {
+  font-size: 11px;
+  padding: 6px 14px;
+  letter-spacing: 2px;
+}
+
+.lg {
+  font-size: 12px;
+  padding: 8px 18px;
+  letter-spacing: 2.5px;
+}

@@ -1,0 +1,224 @@
+/* ── Section ─────────────────────────────────────────────────────────────── */
+.section {
+  background: var(--color-cream);
+  padding: 40px 0 35px;
+  overflow: hidden;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.header { margin-bottom: 36px; }
+
+.headerLeft {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.heading {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: var(--color-midnight);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.viewMore {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-gold);
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  transition: color 0.2s;
+}
+.viewMore:hover { color: var(--color-midnight); }
+
+.accentLine {
+  height: 2px;
+  background: var(--color-gold);
+  width: 100%;
+  margin-bottom: 14px;
+  border-radius: 1px;
+}
+
+.hashTag {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-gold);
+  letter-spacing: 0.5px;
+}
+
+/* ── Carousel row ────────────────────────────────────────────────────────── */
+.carouselWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* The track is always exactly 4 equal columns.
+   We don't translate it — Framer Motion scale handles the visual zoom. */
+.track {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  /* Give extra vertical room so scaled cards don't clip */
+  padding: 24px 0;
+}
+
+/* ── Individual slide ────────────────────────────────────────────────────── */
+.slide {
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+/* ── Card ────────────────────────────────────────────────────────────────── */
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s;
+}
+
+/* Featured card gets gold glow */
+.cardFeatured {
+  box-shadow: 0 14px 40px rgba(201, 169, 97, 0.22), 0 4px 14px rgba(0, 0, 0, 0.10);
+  border-color: rgba(201, 169, 97, 0.50);
+}
+
+.imgWrap {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--color-cream);
+}
+
+.imgWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .imgWrap img { transform: scale(1.05); }
+
+.cardBody {
+  padding: 16px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cardTitle {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-midnight);
+  line-height: 1.4;
+  margin: 0 0 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.25s;
+}
+.card:hover .cardTitle { color: var(--color-gold); }
+
+.cardExcerpt {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-midnight);
+  margin: 0 0 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.readMore {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-gold);
+  letter-spacing: 0.3px;
+  margin-top: auto;
+  transition: color 0.2s;
+}
+.card:hover .readMore { color: var(--color-midnight); }
+
+/* ── Arrows ──────────────────────────────────────────────────────────────── */
+.arrow {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(201, 169, 97, 0.4);
+  color: var(--color-gold);
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.22s;
+  padding: 0;
+  z-index: 3;
+}
+.arrow:hover {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: var(--color-midnight);
+}
+
+/* ── Dots ────────────────────────────────────────────────────────────────── */
+.dots {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(201, 169, 97, 0.25);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.dotActive {
+  background: var(--color-gold);
+  width: 22px;
+  border-radius: 4px;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+/* Tablet: 2 columns */
+@media (max-width: 960px) {
+  .track { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 600px) {
+  .section  { padding: 52px 0 48px; }
+  .track    { grid-template-columns: 1fr; padding: 12px 0; }
+  .arrow    { width: 32px; height: 32px; }
+  .heading  { font-size: 1.5rem; }
+}
