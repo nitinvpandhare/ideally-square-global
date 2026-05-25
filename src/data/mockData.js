@@ -912,7 +912,7 @@ export const magazines = [
     description: 'Workplaces have begun to shape more than just how work gets done. They influence how people feel when they walk in, how confidently they engage, and how fully they can contribute. Under Yohanes Jeffry Johary’s leadership at OCS Group Indonesia, workplace environments are treated as systems that influence outcomes rather than assets that require upkeep.',
     category: 'cover-story',
     publishDate: '2026-03-05',
-    pdfUrl: '/magazines/File-Jeffry-Johary.pdf',
+    pdfUrl: '/magazines/New-pdf-Digital File-JeffryJohary.pdf',
     slug: 'yohanes-jeffry-johary',
   },
   {
@@ -962,7 +962,7 @@ export const magazines = [
     description: 'A comprehensive guide to the most promising franchise opportunities for entrepreneurs in 2026.',
     category: 'special-edition',
     publishDate: '2026-02-05',
-    pdfUrl: '/magazines/Best-franchises-to-open-in-2026-compressed.pdf',
+    pdfUrl: '/magazines/New-pdf-Best-franchises-to-open-in-2026.pdf',
     slug: 'best-franchises-2026',
   },
   // {
