@@ -148,6 +148,13 @@
   cursor: pointer;
 }
 
+.cardDisabled {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.92;
+}
+
+
 /* Active (center) card elevated shadow */
 .cardActive .imageWrapper {
   box-shadow: 0 24px 64px rgba(0,0,0,0.30), 0 0 0 1.5px rgba(201,169,97,0.30) !important;

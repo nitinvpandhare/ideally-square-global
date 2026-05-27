@@ -284,7 +284,7 @@ function MagazineTab() {
               <option value="cover-story">Cover Story</option>
               <option value="feature">Feature</option>
               <option value="special-edition">Special Edition</option>
-              <option value="annual">Annual Issue</option>
+              <option value="upcoming-issue">Upcoming Issue</option>
             </select>
           </div>
 

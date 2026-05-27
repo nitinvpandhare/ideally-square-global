@@ -9,7 +9,7 @@ const CATEGORY_LABELS = {
   'cover-story': 'Cover Story',
   feature: 'Feature',
   'special-edition': 'Special Edition',
-  annual: 'Annual Issue',
+  'upcoming-issue': 'Upcoming Issue',
 };
 
 const getVisibleCount = () => {
@@ -230,8 +230,12 @@ const MagazinesGrid = ({ magazines = allMagazines, showHeader = true }) => {
                       }}
                     >
                       <Link
-                        to={`/magazines/${magazine.slug}`}
-                        className={`${styles.card}`}
+                        to={magazine.category === 'upcoming-issue' ? undefined : `/magazines/${magazine.slug}`}
+                        aria-disabled={magazine.category === 'upcoming-issue' ? 'true' : 'false'}
+                        onClick={(e) => {
+                          if (magazine.category === 'upcoming-issue') e.preventDefault();
+                        }}
+                        className={`${styles.card} ${magazine.category === 'upcoming-issue' ? styles.cardDisabled : ''}`}
                         draggable={false}
                       >
                         <div className={styles.imageWrapper}>

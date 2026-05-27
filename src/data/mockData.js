@@ -418,7 +418,7 @@ export const magazineCategories = [
   { id: 'cover-story', name: 'Cover Story' },
   { id: 'feature', name: 'Feature' },
   { id: 'special-edition', name: 'Special Edition' },
-  { id: 'annual-issue', name: 'Annual Issue' },
+  { id: 'upcoming-issue', name: 'Upcoming Issue' },
 ];
 
 /* ── Cover Stories ───────────────────────────────────────────────────────── */
@@ -429,8 +429,8 @@ export const coverStories = [
     magazineSlug: 'rene-christensen',
     coverImage: '/iSG-Cover/iSG-CS/René-Christensen-Cover--Web.png',
     category: 'Cover Story',
-    date: '2026-03-05',
-    coverTitle: 'René Christensen: Building Better Design Through the Language of Mathematics',
+    date: '2026-05-27',
+    coverTitle: 'René Christensen: Global Simulation & Acoustic Engineering Leaders 2026',
     excerpt:
       'Before a product is ever held in the hand, heard in a room, or tested in motion, it first exists in a quieter space, one shaped by equations, assumptions, and possibilities. This is where engineering moves beyond mechanics and enters the realm of foresight. The most transformative breakthroughs are often born not on the production floor, but within the invisible architecture of mathematics, simulation, and scientific imagination.',
     sections: [
@@ -505,7 +505,7 @@ export const coverStories = [
     magazineSlug: 'yohanes-jeffry-johary',
     coverImage: '/iSG-Cover/iSG-CS/JeffryJohary-Web.png',
     category: 'Cover Story',
-    date: '2026-03-05',
+    date: '2026-05-20',
     coverTitle: 'Yohanes Jeffry Johary: Global Strategic Business Leaders 2026',
     excerpt:
       'Workplaces have begun to shape more than just how work gets done. They influence how people feel when they walk in, how confidently they engage, and how fully they can contribute. Under Yohanes Jeffry Johary\'s leadership at OCS Group Indonesia, workplace environments are treated as systems that influence outcomes rather than assets that require upkeep.',
@@ -641,69 +641,6 @@ export const coverStories = [
       },
     ],
   },
-  {
-    id: 4,
-    slug: 'wilasinee-parnurat',
-    magazineSlug: 'top-10-women-leading-the-martech-revolution',
-    coverImage: '/iSG-Cover/iSG-CS/Wilasinee-Parnurat-Web.png',
-    category: 'Cover Story',
-    date: '2026-02-10',
-    coverTitle: 'Wilasinee Parnurat: Leading Marketing Evolution with Courage & Innovation',
-    excerpt:
-      'In today’s rapidly evolving consumer landscape, agility, innovation, and bold leadership define business success. Wilasinee Parnurat, Country Manager/Managing Director of Bata Thailand, is redefining leadership by building a consumer-centric culture, empowering diverse teams, and driving transformative growth through fearless innovation.',
-    sections: [
-      {
-        heading: 'A Career Shaped by Marketing Evolution',
-        body:
-          'The marketing industry continues to evolve through changing consumer behaviors, digital transformation, and shifting market dynamics. Wilasinee Parnurat recognized early on the importance of understanding the relationship between brands and consumer behavior. Her passion for marketing was fueled by the opportunity to combine strategic thinking with creativity, helping organizations build meaningful connections with consumers while continuously adapting to change.',
-      },
-      {
-        heading: 'Breaking Barriers in the Corporate World',
-        body:
-          'Despite graduating in Material Science and Engineering, Wilasinee pursued a career in Product Marketing after completing her MIS and MBA degrees. Her journey began at Samsung Mobile, where she discovered her passion for marketing. She later strengthened her expertise while working with Unilever’s regional and global Brand Development teams before advancing her career further at L’Oreal, where she managed one of the company’s largest beauty portfolios. Her leadership journey continued during her tenure as CMO at Yves Rocher, eventually leading her to become the first Thai woman and first local Managing Director of Bata Thailand since the company’s establishment in 1929.',
-      },
-      {
-        heading: 'Driving Growth Through Innovation & Agility',
-        body:
-          'At Bata Thailand, Wilasinee leads with a strong belief in agility, transformation, and innovation. She emphasizes the importance of helping teams understand the purpose behind organizational changes while fostering collaboration and unity across diverse departments. By encouraging a “fail fast, learn fast” culture, she empowers employees to experiment with bold ideas, embrace calculated risks, and continuously evolve through learning and adaptation.',
-      },
-      {
-        heading: 'The Power of Passion in Leadership',
-        body:
-          'Wilasinee believes passion is one of the most essential qualities in leadership. Her enthusiasm, energy, and commitment to excellence influence the culture she builds within her organization. Alongside passion, she values innovation, adaptability, and a growth mindset, recognizing that businesses must continuously evolve to remain competitive. Courage also plays a critical role in her leadership philosophy, allowing her to make difficult decisions, face challenges confidently, and pursue ambitious goals.',
-      },
-      {
-        heading: 'Building a Consumer-Centric Organization',
-        body:
-          'Consumer centricity remains at the core of Bata Thailand’s business strategy under Wilasinee’s leadership. The organization has adopted a “Consumers First” culture, encouraging teams to stay closely connected to customer needs, market trends, and evolving purchasing behaviors. Through social listening, consumer engagement sessions, external training programs, and data-driven insights, the company continuously refines its strategies to better serve its diverse customer base.',
-      },
-      {
-        heading: 'Creating Strong & Diverse Teams',
-        body:
-          'Wilasinee strongly believes diverse teams drive stronger innovation, creativity, and problem-solving capabilities. By bringing together people with different backgrounds, perspectives, and experiences, organizations can unlock more innovative ideas and gain deeper insights into customer behavior and emerging market opportunities. She emphasizes the importance of creating an inclusive workplace culture where every employee feels valued, heard, and empowered to contribute meaningfully.',
-      },
-      {
-        heading: 'Leadership Built on Trust & Example',
-        body:
-          'Leading by example is central to Wilasinee’s management philosophy. She believes leaders must demonstrate the same standards, discipline, and commitment they expect from their teams. By aligning actions with words, she builds trust and inspires confidence within the organization. She also encourages aspiring leaders to embrace boldness, take initiative, and avoid overthinking opportunities, believing that growth often comes from courage and decisive action.',
-      },
-      {
-        heading: 'Learning from Failures & Encouraging Innovation',
-        body:
-          'Wilasinee actively promotes an open culture where employees are encouraged to learn from failures rather than fear them. Transparency, collaboration, and continuous improvement are deeply embedded into the organization’s culture. Teams are encouraged to identify the root causes of setbacks, apply lessons learned, and use those insights to strengthen future strategies. Alongside learning, she believes recognition and appreciation are equally important for maintaining motivation and encouraging innovation.',
-      },
-      {
-        heading: 'Balancing Leadership & Personal Well-Being',
-        body:
-          'As leadership responsibilities continue to grow, Wilasinee acknowledges the importance of balancing professional commitments with personal well-being. Through effective prioritization, structured time management, and setting clear boundaries, she remains committed to creating space for leisure, travel, and personal growth while maintaining high performance in her professional role.',
-      },
-      {
-        heading: 'A Vision for Market Leadership',
-        body:
-          'Looking ahead, Wilasinee’s vision for Bata Thailand is clear: to achieve the company’s highest sales performance in nearly a century and reclaim its position as the market leader. As the first Thai woman to hold this prestigious leadership role, she hopes to inspire future generations of female leaders to challenge stereotypes, break barriers, and continue building a legacy of innovation, inclusion, and success.',
-      },
-    ],
-  }
 ];
 
 
@@ -981,38 +918,28 @@ export const newsItems = [
 
 export const magazines = [
   {
-    id: 8,
-    title: 'Global Strategic Business Leaders 2026 - René Christensen',
+    id: 5,
+    title: 'Global Simulation & Acoustic Engineering Leaders 2026 - René Christensen',
     subtitle: 'Cover Story',
     description:
       'Before a product is ever held in the hand, heard in a room, or tested in motion, it first exists in a quieter space, one shaped by equations, assumptions, and possibilities. This is where engineering moves beyond mechanics and enters the realm of foresight. René Christensen and Acculution ApS transform complex physical challenges into intelligent, model-driven solutions through mathematics, simulation, and scientific imagination.',
     category: 'cover-story',
-    publishDate: '2026-03-05',
-    pdfUrl: '/magazines/René-Christensen.pdf',
+    publishDate: '2026-05-27',
+    pdfUrl: '/magazines/New-File- René-Christensen.pdf',
     slug: 'rene-christensen',
   },
   {
-    id: 7,
+    id: 4,
     title: 'Global Strategic Business Leaders 2026- Yohanes Jeffrey Johary',
     subtitle: 'Cover Story',
     description: 'Workplaces have begun to shape more than just how work gets done. They influence how people feel when they walk in, how confidently they engage, and how fully they can contribute. Under Yohanes Jeffry Johary’s leadership at OCS Group Indonesia, workplace environments are treated as systems that influence outcomes rather than assets that require upkeep.',
     category: 'cover-story',
-    publishDate: '2026-03-05',
+    publishDate: '2026-05-20',
     pdfUrl: '/magazines/New-pdf-Digital File-JeffryJohary.pdf',
     slug: 'yohanes-jeffry-johary',
   },
   {
     id: 1,
-    title: 'Top 10 Women Leading the MarTech Revolution',
-    subtitle: 'Annual Issue',
-    description: 'Celebrating visionary women leaders transforming the MarTech industry through innovation, strategy, leadership, and digital excellence.',
-    category: 'annual-issue',
-    publishDate: '2026-02-01',
-    pdfUrl: '/magazines/Top-10-Women-Leading-the-MarTech-Revolution-in-2026.pdf',
-    slug: 'top-10-women-leading-the-martech-revolution',
-  },
-  {
-    id: 2,
     title: 'Global Leadership Psychology & Humanitarian Visionaries-2026',
     subtitle: 'Cover Story',
     description: 'An in-depth exploration of leadership, vision, and the journey that defines Chris Stout\'s remarkable business career.',
@@ -1022,7 +949,7 @@ export const magazines = [
     slug: 'global-leadership-psychology-&-humanitarian-visionaries-2026',
   },
   {
-    id: 3,
+    id: 2,
     title: 'The Most Influential Business Leader',
     subtitle: 'Feature',
     description: 'Profiling the most influential business leaders driving transformation, innovation, and impact across global industries.',
@@ -1032,17 +959,7 @@ export const magazines = [
     slug: 'most-influential-business-leader',
   },
   {
-    id: 4,
-    title: 'The Most Inspirational Leaders in Business to Look Out for 2026',
-    subtitle: 'Special Edition',
-    description: 'Celebrating the visionary leaders who are shaping the future of business and inspiring the next generation.',
-    category: 'special-edition',
-    publishDate: '2026-01-25',
-    pdfUrl: '/magazines/Top-Education-Trailblazers-Putting-Students-on-the-Map-of-Success-in-2026-compressed.pdf',
-    slug: 'inspirational-leaders-2026',
-  },
-  {
-    id: 5,
+    id: 3,
     title: 'Best franchises to open in 2026',
     subtitle: 'Special Edition',
     description: 'A comprehensive guide to the most promising franchise opportunities for entrepreneurs in 2026.',
@@ -1051,15 +968,42 @@ export const magazines = [
     pdfUrl: '/magazines/New-pdf-Best-franchises-to-open-in-2026.pdf',
     slug: 'best-franchises-2026',
   },
-  // {
-  //   id: 6,
-  //   title: 'The Most Influential Business Leader',
-  //   subtitle: 'A Translucent Leadership Acumen for Trusted Realty Solutions',
-  //   description: 'Spotlighting Heena Sehrawat, Founder and CEO of The Heena Realty Makers — a visionary leader whose pillars of strength lie in loyalty, honesty, trustworthiness, and transparency in the real estate sector.',
-  //   category: 'special-edition',
-  //   publishDate: '2026-01-01',
-  //   pdfUrl: '/magazines/The-Most-Influential-Business-Leader-compressed.pdf',
-  //   slug: 'the-most-influential-business-leader',
-  // }
+
+  // ── Upcoming Issues (IMAGE ONLY; no PDF) ──────────────────────────────
+  {
+    id: 5,
+    title: 'The Most Influential Business Leaders 2026',
+    subtitle: 'Upcoming Issue',
+    image: '/upcoming-issue/The-Most-Influential-Business-Leader.jpg.jpeg',
+    category: 'upcoming-issue',
+    slug: 'the-most-influential-business-leader-2026',
+  },
+
+  {
+    id: 6,
+    title: 'Global Animal Welfare & Ethical Impact Leaders 2026',
+    subtitle: 'Upcoming Issue',
+    image: '/upcoming-issue/Global-Animal-Welfare-&-Ethical-Impact-Leaders-2026.jpg.jpeg',
+    category: 'upcoming-issue',
+    slug: 'global-animal-welfare-ethical-impact-leaders-2026',
+  },
+
+  {
+    id: 7,
+    title: 'Top AI & Human-Centred Transformation Leaders to Watch in 2026',
+    subtitle: 'Upcoming Issue',
+    image: '/upcoming-issue/Top-AI-&-Human-Centred-Transformation-Leaders-to-Watch-in-2026.jpg.jpeg',
+    category: 'upcoming-issue',
+    slug: 'top-ai-human-centred-transformation-leaders-to-watch-in-2026',
+  },
+
+  {
+    id: 8,
+    title: 'Top Education Trailblazers Putting Students on the Map of Success in 2026',
+    subtitle: 'Upcoming Issue',
+    image: '/upcoming-issue/Top-Education-Trailblazers-Putting-Students-on-the-Map-of-Success-in-2026.jpg.jpeg',
+    category: 'upcoming-issue',
+    slug: 'top-education-trailblazers-putting-students-on-the-map-of-success-in-2026',
+  },
 ];
 
