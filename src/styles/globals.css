@@ -62,3 +62,20 @@ img {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-gold);
 }
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1400px;
+    padding: 0 56px;
+  }
+}
+
+/* Normal Desktop */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .container {
+    max-width: 1280px;
+    padding: 0 40px;
+  }
+}
+
