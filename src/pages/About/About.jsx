@@ -29,10 +29,10 @@ const introTabs = [
 
 const heroImages = [
   '/About-us/About-us.png'
-//   '/About%20us/Editorial%20Meeting.jpg',
-//   '/About%20us/Editorial.jpg',
-//   '/About%20us/The%20Editorial%20Team%20·%20Est.%202004.jpg',
-//   '/About%20us/The%20Writers%20Room.jpg',
+  //   '/About%20us/Editorial%20Meeting.jpg',
+  //   '/About%20us/Editorial.jpg',
+  //   '/About%20us/The%20Editorial%20Team%20·%20Est.%202004.jpg',
+  //   '/About%20us/The%20Writers%20Room.jpg',
 ];
 
 const roadmapItems = [
@@ -131,23 +131,21 @@ const About = () => {
         ))}
         <div className={styles.aboutHeroOverlay} />
         <div className={styles.aboutHeroDots} />
-        <div className={pageStyles.container} style={{ position: 'relative', zIndex: 3 }}>
+        <div className={`${pageStyles.container} ${styles.heroContent}`}
+          style={{
+            position: 'relative',
+            zIndex: 3,
+            margin: '0',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+          }}
+        >
           <span className={pageStyles.label}>WHO WE ARE</span>
           <h1 className={pageStyles.heading}>Ideally Square Global Magazine</h1>
           <p className={pageStyles.description}>
             A global business and leadership publication delivering credible, research-driven
             insights on entrepreneurship, strategy, innovation, and enterprise growth.
           </p>
-          {/* <div className={styles.heroDots}>
-            {heroImages.map((_, i) => (
-              <button
-                key={i}
-                className={`${styles.heroDot} ${i === heroIndex ? styles.heroDotActive : ''}`}
-                onClick={() => setHeroIndex(i)}
-                aria-label={`Slide ${i + 1}`}
-              />
-            ))}
-          </div> */}
         </div>
       </div>
 

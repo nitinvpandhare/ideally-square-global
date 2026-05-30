@@ -61,21 +61,32 @@ const Magazines = () => {
           </div>
 
           <div className={styles.categories}>
-            <button
+            {/* <button
               className={`${styles.catBtn} ${activeCategory === ALL ? styles.catActive : ''}`}
               onClick={() => setActiveCategory(ALL)}
             >
               All
-            </button>
-            {magazineCategories.map((cat) => (
-              <button
-                key={cat.id}
-                className={`${styles.catBtn} ${activeCategory === cat.id ? styles.catActive : ''}`}
-                onClick={() => setActiveCategory(cat.id)}
-              >
-                {cat.name}
-              </button>
-            ))}
+            </button> */}
+
+            {magazineCategories
+              .filter(
+                (cat) =>
+                  ![
+                    'cover-story',
+                    'feature',
+                    'special-edition',
+                    'upcoming-issue',
+                  ].includes(cat.id)
+              )
+              .map((cat) => (
+                <button
+                  key={cat.id}
+                  className={`${styles.catBtn} ${activeCategory === cat.id ? styles.catActive : ''}`}
+                  onClick={() => setActiveCategory(cat.id)}
+                >
+                  {cat.name}
+                </button>
+              ))}
           </div>
         </div>
       </div>

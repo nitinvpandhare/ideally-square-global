@@ -901,3 +901,36 @@
     transition: none;
   }
 }
+/* ── Hero content alignment ──────────────────────────────────────────────── */
+.heroContent {
+  /* display: flex; */
+  flex-direction: column;
+  align-items: flex-start;
+  /* text-align: left; */
+  max-width: 800px;
+}
+ 
+/* Tablet (641px – 1024px) */
+@media (max-width: 1024px) and (min-width: 641px) {
+  .aboutHero {
+    padding: 48px 32px 80px;
+  }
+ 
+  .heroContent {
+    max-width: 520px;
+  }
+}
+ 
+/* Mobile */
+@media (max-width: 640px) {
+  .aboutHero {
+    padding: 40px 16px 72px;
+  }
+ 
+  .heroContent {
+    max-width: 100%;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+ 
