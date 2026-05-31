@@ -63,50 +63,91 @@ const MagazinePagesPage = () => {
 
   const goNext = () => bookRef.current?.pageFlip()?.flipNext();
   const goPrev = () => bookRef.current?.pageFlip()?.flipPrev();
-  const onFlip = (e) => {
-    setCurrentPage(e.data);
-  };
 
-  /* ── Fast-flip to target page (like flipping through pages) ── */
+  const flipTargetRef = useRef(null);
   const flipIntervalRef = useRef(null);
 
-  const goToPage = (targetPdfPage) => {
-    if (!bookRef.current) return;
+  const onFlip = (e) => {
+    setCurrentPage(e.data);
 
-    // Clear any existing interval
-    if (flipIntervalRef.current) {
-      clearInterval(flipIntervalRef.current);
-      flipIntervalRef.current = null;
+    if (flipTargetRef.current === null) return;
+    const target  = flipTargetRef.current;
+    const current = e.data;
+
+    // Stop if target PDF page is visible in current spread
+    // Spread shows pages: current+1 and current+2
+    const visibleLeft  = current + 1;
+    const visibleRight = current + 2;
+    const targetPdf    = flipTargetRef._pdfPage;
+
+    const reached =
+      current === target ||
+      (targetPdf && (visibleLeft === targetPdf || visibleRight === targetPdf));
+
+    if (reached) {
+      flipTargetRef.current  = null;
+      flipTargetRef._pdfPage = null;
+      if (flipIntervalRef.current) {
+        clearTimeout(flipIntervalRef.current);
+        flipIntervalRef.current = null;
+      }
+      return;
     }
 
-    const flipBook = bookRef.current.pageFlip();
-    const targetFlipIndex = targetPdfPage - 1;
-
-    // Temporarily speed up flip animation
-    // Flip one page at a time rapidly until target reached
-    const FLIP_INTERVAL = 80; // ms between each page flip
-
-    flipIntervalRef.current = setInterval(() => {
-      const currentIdx = flipBook.getCurrentPageIndex();
-
-      if (currentIdx === targetFlipIndex) {
-        clearInterval(flipIntervalRef.current);
-        flipIntervalRef.current = null;
-        return;
-      }
-
-      if (currentIdx < targetFlipIndex) {
+    flipIntervalRef.current = setTimeout(() => {
+      if (flipTargetRef.current === null) return;
+      const flipBook = bookRef.current?.pageFlip();
+      if (!flipBook) return;
+      if (current < target) {
         flipBook.flipNext();
       } else {
         flipBook.flipPrev();
       }
-    }, FLIP_INTERVAL);
+    }, 160);
+  };
+
+  const goToPage = (targetPdfPage) => {
+    if (!bookRef.current) return;
+
+    if (flipIntervalRef.current) {
+      clearTimeout(flipIntervalRef.current);
+      flipIntervalRef.current = null;
+    }
+
+    const flipBook = bookRef.current.pageFlip();
+    const current  = flipBook.getCurrentPageIndex();
+
+    // Store original PDF page for spread visibility check
+    flipTargetRef._pdfPage = targetPdfPage;
+
+    // Target flip index — even for proper left-page spread
+    let target = targetPdfPage <= 1 ? 0 : targetPdfPage - 1;
+    if (target > 0 && target % 2 !== 0) target -= 1;
+
+    // Already on correct spread
+    const visibleLeft  = current + 1;
+    const visibleRight = current + 2;
+    if (visibleLeft === targetPdfPage || visibleRight === targetPdfPage) {
+      flipTargetRef.current  = null;
+      flipTargetRef._pdfPage = null;
+      return;
+    }
+
+    flipTargetRef.current = target;
+
+    if (current < target) {
+      flipBook.flipNext();
+    } else {
+      flipBook.flipPrev();
+    }
   };
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (flipIntervalRef.current) clearInterval(flipIntervalRef.current);
+      if (flipIntervalRef.current) clearTimeout(flipIntervalRef.current);
+      flipTargetRef.current  = null;
+      flipTargetRef._pdfPage = null;
     };
   }, []);
 
