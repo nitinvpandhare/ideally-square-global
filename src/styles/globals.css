@@ -16,11 +16,31 @@ a:hover {
   color: var(--color-gold);
 }
 
-
-
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* ── Safari GPU compositing fix — prevents black shade on all images/canvas ── */
+img,
+canvas {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* react-pdf canvas — force white background in Safari */
+.react-pdf__Page canvas {
+  background: #ffffff !important;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.react-pdf__Page__textContent {
+  display: none !important;
 }
 
 .container {
@@ -78,4 +98,3 @@ img {
     padding: 0 40px;
   }
 }
-

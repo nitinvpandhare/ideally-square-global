@@ -165,7 +165,7 @@
   aspect-ratio: 3 / 4;
   overflow: hidden;
   border-radius: 8px;
-  background: #f5f5f5 !important;
+  background: #ffffff !important;
   margin-bottom: 12px;
   /* box-shadow: 0 8px 26px rgba(0,0,0,0.14); */
   transition: box-shadow 0.35s, transform 0.35s;

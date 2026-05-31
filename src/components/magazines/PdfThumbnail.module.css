@@ -2,20 +2,25 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background: #f5f5f5;
+  /* White bg visible behind canvas while loading + Safari fallback */
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
+  isolation: isolate;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  overflow: hidden;
 }
 
-/* Shown while PDF page is rendering */
+/* Shimmer skeleton */
 .skeleton {
   position: absolute;
   inset: 0;
   background: linear-gradient(110deg, #ececec 30%, #f5f5f5 50%, #ececec 70%);
   background-size: 200% 100%;
   animation: shimmer 1.4s linear infinite;
-  z-index: 0;
+  z-index: 2;
 }
 
 @keyframes shimmer {
@@ -23,53 +28,68 @@
   100% { background-position: -200% 0; }
 }
 
-/* The rendered PDF canvas */
+/* Visible canvas */
 .canvas {
   position: relative;
   z-index: 1;
   width: 100%;
   height: auto;
-  /* background: #ffffff !important; */
+  background: #ffffff;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
-  will-change: transform, opacity;
 }
 
 .canvas canvas {
   width: 100% !important;
   height: auto !important;
   display: block;
-  /* background: #ffffff !important; */
+  background: #ffffff !important;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
+/* Hidden canvas during preload */
 .canvasHidden {
   position: absolute;
+  inset: 0;
   z-index: 0;
   opacity: 0;
-  width: 0;
-  height: 0;
   pointer-events: none;
+  width: 100%;
 }
 
 .canvasHidden canvas {
-  width: 0 !important;
-  height: 0 !important;
+  width: 100% !important;
+  height: auto !important;
   opacity: 0;
-  position: absolute;
   pointer-events: none;
+  background: #ffffff !important;
 }
 
-/* Hide text layer that might have dark backgrounds */
+/* react-pdf global overrides — Safari needs !important on canvas bg */
 :global(.react-pdf__Document) {
-  /* background: #ffffff !important; */
+  background: #ffffff;
+  width: 100%;
 }
 
 :global(.react-pdf__Page) {
-  /* background: #ffffff !important; */
+  background: #ffffff !important;
+}
+
+:global(.react-pdf__Page__canvas) {
+  background: #ffffff !important;
+  -webkit-transform: translateZ(0) !important;
+  transform: translateZ(0) !important;
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
 }
 
 :global(.react-pdf__Page__textContent) {
+  display: none !important;
+}
+
+:global(.react-pdf__Page__annotations) {
   display: none !important;
 }
