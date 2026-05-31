@@ -67,6 +67,49 @@ const MagazinePagesPage = () => {
     setCurrentPage(e.data);
   };
 
+  /* ── Fast-flip to target page (like flipping through pages) ── */
+  const flipIntervalRef = useRef(null);
+
+  const goToPage = (targetPdfPage) => {
+    if (!bookRef.current) return;
+
+    // Clear any existing interval
+    if (flipIntervalRef.current) {
+      clearInterval(flipIntervalRef.current);
+      flipIntervalRef.current = null;
+    }
+
+    const flipBook = bookRef.current.pageFlip();
+    const targetFlipIndex = targetPdfPage - 1;
+
+    // Temporarily speed up flip animation
+    // Flip one page at a time rapidly until target reached
+    const FLIP_INTERVAL = 80; // ms between each page flip
+
+    flipIntervalRef.current = setInterval(() => {
+      const currentIdx = flipBook.getCurrentPageIndex();
+
+      if (currentIdx === targetFlipIndex) {
+        clearInterval(flipIntervalRef.current);
+        flipIntervalRef.current = null;
+        return;
+      }
+
+      if (currentIdx < targetFlipIndex) {
+        flipBook.flipNext();
+      } else {
+        flipBook.flipPrev();
+      }
+    }, FLIP_INTERVAL);
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (flipIntervalRef.current) clearInterval(flipIntervalRef.current);
+    };
+  }, []);
+
   /* ── Jump to page input ── */
   const [jumpInput, setJumpInput] = useState('');
 
@@ -77,11 +120,6 @@ const MagazinePagesPage = () => {
       goToPage(n);
     }
     setJumpInput('');
-  };
-
-  const goToPage = (targetPdfPage) => {
-    if (!bookRef.current) return;
-    bookRef.current.pageFlip().turnToPage(targetPdfPage - 1);
   };
 
   /* ── Extract PDF internal links ── */
@@ -286,7 +324,7 @@ const MagazinePagesPage = () => {
                             mobileScrollSupport={false}
                             onFlip={onFlip}
                             className={styles.flipBook}
-                            flippingTime={700}
+                            flippingTime={150}
                             usePortrait={false}
                             drawShadow={false}
                             maxShadowOpacity={0}
