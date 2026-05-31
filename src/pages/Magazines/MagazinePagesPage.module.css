@@ -132,7 +132,14 @@
 
 /* ── react-pageflip book ─────────────────────────────────────────────────── */
 .flipBook {
-  /* Remove any inherited shadow */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* Safari — kill any dark overlay react-pageflip injects */
+.flipBook :global(*) {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 /* ── Kill the black bottom shadow from react-pageflip ───────────────────── */
@@ -163,6 +170,65 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  position: relative;
+  background: #fff;
+  /* Safari fix — prevent black compositing */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  isolation: isolate;
+}
+
+.bookPage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Safari — prevent dark overlay on GPU composited layers */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ── Flipbook wrapper ────────────────────────────────────────────────────── */
+.flipWrap {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+
+/* Block ALL click events on the flipbook itself */
+.flipWrap :global(.stf__parent) {
+  pointer-events: none !important;
+}
+
+/* ── 4 corner click zones ────────────────────────────────────────────────── */
+.cornerZone {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  z-index: 100;
+  cursor: pointer;
+  pointer-events: all !important;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.cornerZone:hover {
+  background: rgba(201, 169, 97, 0.18);
+}
+
+.cornerTL { top: 0;    left: 0;  }
+.cornerBL { bottom: 0; left: 0;  }
+.cornerTR { top: 0;    right: 0; }
+.cornerBR { bottom: 0; right: 0; }
+
+/* ── PDF internal link hotspots ─────────────────────────────────────────── */
+.linkHotspot {
+  position: absolute;
+  z-index: 99;
+  cursor: pointer;
+  pointer-events: all !important;
 }
 
 .blankPage {
@@ -334,7 +400,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 16px;
   padding: 14px 24px 4px;
+  flex-wrap: wrap;
 }
 
 .pageIndicator {
@@ -342,6 +410,54 @@
   font-weight: 600;
   color: #444;
   text-align: center;
+}
+
+/* ── Page jump form ──────────────────────────────────────────────────────── */
+.jumpForm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.jumpInput {
+  width: 110px;
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  color: #333;
+  background: #fff;
+  transition: border-color 0.2s;
+  /* Remove number input arrows */
+  -moz-appearance: textfield;
+}
+
+.jumpInput::-webkit-outer-spin-button,
+.jumpInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.jumpInput:focus {
+  border-color: #c9a961;
+}
+
+.jumpBtn {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #141414;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.jumpBtn:hover {
+  background: #c9a961;
+  color: #141414;
 }
 
 /* ── Dot strip ───────────────────────────────────────────────────────────── */

@@ -1,45 +1,47 @@
 import { useState, useRef, forwardRef, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
 import HTMLFlipBook from 'react-pageflip';
 import '../../utils/pdfWorker';
 import { magazines } from '../../data/mockData';
 import MagazineCard from '../../components/home/MagazinesGrid/MagazineCard';
 import styles from './MagazinePagesPage.module.css';
 
-/* ─────────────────────────────────────────────────────────────────────────
-   BookPage — each leaf inside react-pageflip
-───────────────────────────────────────────────────────────────────────── */
-const BookPage = forwardRef(({ src, width, height, isBlank, hasLinks, onClick }, ref) => (
-  <div
-    ref={ref}
-    className={styles.bookPage}
-    style={{ width, height, cursor: hasLinks ? 'pointer' : 'default' }}
-    onClick={onClick}
-  >
+const isSafari =
+  typeof navigator !== 'undefined' &&
+  /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+/* ── BookPage ──────────────────────────────────────────────────────────── */
+const BookPage = forwardRef(({ src, width, height, isBlank }, ref) => (
+  <div ref={ref} className={styles.bookPage} style={{ width, height }}>
     {isBlank || !src ? (
       <div className={styles.blankPage} style={{ width, height }} />
     ) : (
-      <img src={src} alt="" draggable={false} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'contain' }} />
+      <img
+        src={src}
+        alt=""
+        draggable={false}
+        style={{ width: '100%', height: '100%', display: 'block', objectFit: 'contain' }}
+      />
     )}
   </div>
 ));
 BookPage.displayName = 'BookPage';
 
-/* ─────────────────────────────────────────────────────────────────────────
-   Main Page
-───────────────────────────────────────────────────────────────────────── */
+/* ── Main ──────────────────────────────────────────────────────────────── */
 const MagazinePagesPage = () => {
   const { slug } = useParams();
   const magazine       = magazines.find((m) => m.slug === slug);
   const otherMagazines = magazines.filter((m) => m.slug !== slug).slice(0, 4);
 
-  const [numPages, setNumPages]       = useState(null);
-  const [pageImages, setPageImages]   = useState({});
+  const [numPages, setNumPages]     = useState(null);
+  const [pageImages, setPageImages] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
-  const [pdfDoc, setPdfDoc]           = useState(null); // raw pdfjs doc for link parsing
-  const bookRef = useRef(null);
+  const [pdfDoc, setPdfDoc]         = useState(null);
+  const [pageLinks, setPageLinks]   = useState({});
+  const bookRef        = useRef(null);
+  const pageCanvasRefs = useRef({});
 
   const isMobile   = typeof window !== 'undefined' && window.innerWidth <= 680;
   const pageHeight = isMobile
@@ -47,16 +49,10 @@ const MagazinePagesPage = () => {
     : Math.floor(window.innerHeight * 0.82);
   const pageWidth = Math.floor(pageHeight * (595 / 842));
 
-  const pageCanvasRefs = useRef({});
-
-  const onDocumentLoadSuccess = ({ numPages: n, _pdfInfo }) => {
-    setNumPages(n);
+  const onDocumentLoadSuccess = (pdf) => {
+    setNumPages(pdf.numPages);
     setPageImages({});
     pageCanvasRefs.current = {};
-  };
-
-  // Store raw pdfjs document to extract annotations later
-  const onDocumentLoad = (pdf) => {
     setPdfDoc(pdf);
   };
 
@@ -67,95 +63,70 @@ const MagazinePagesPage = () => {
 
   const goNext = () => bookRef.current?.pageFlip()?.flipNext();
   const goPrev = () => bookRef.current?.pageFlip()?.flipPrev();
-  const onFlip = (e) => setCurrentPage(e.data);
-
-  /* ── Jump to a specific PDF page number ─────────────────────────────── */
-  const goToPage = (targetPdfPage) => {
-    if (!bookRef.current) return;
-    // react-pageflip page index (0-based); page 1 = index 0
-    const flipIndex = targetPdfPage - 1;
-    bookRef.current.pageFlip().turnToPage(flipIndex);
+  const onFlip = (e) => {
+    setCurrentPage(e.data);
   };
 
-  /* ── Extract internal PDF links from every page after allReady ───────
-     pdfjs annotations of type "Link" with a "GoTo" dest tell us
-     which page number a link points to.                                  */
-  const [pageLinks, setPageLinks] = useState({}); // { pdfPageNum: [{destPage, rect}] }
+  /* ── Jump to page input ── */
+  const [jumpInput, setJumpInput] = useState('');
 
+  const handleJump = (e) => {
+    e.preventDefault();
+    const n = parseInt(jumpInput, 10);
+    if (!isNaN(n) && n >= 1 && n <= totalPages) {
+      goToPage(n);
+    }
+    setJumpInput('');
+  };
+
+  const goToPage = (targetPdfPage) => {
+    if (!bookRef.current) return;
+    bookRef.current.pageFlip().turnToPage(targetPdfPage - 1);
+  };
+
+  /* ── Extract PDF internal links ── */
   useEffect(() => {
     if (!allReady || !pdfDoc) return;
-
     const extractLinks = async () => {
       const result = {};
       for (let pg = 1; pg <= totalPages; pg++) {
         try {
-          const page  = await pdfDoc.getPage(pg);
+          const page   = await pdfDoc.getPage(pg);
           const annots = await page.getAnnotations();
-          const links = [];
+          const links  = [];
           for (const a of annots) {
             if (a.subtype !== 'Link') continue;
             let destPage = null;
-            if (a.dest) {
-              try {
-                const dest = typeof a.dest === 'string'
-                  ? await pdfDoc.getDestination(a.dest)
-                  : a.dest;
-                if (dest && dest[0]) {
-                  const ref = dest[0];
-                  const pageIndex = await pdfDoc.getPageIndex(ref);
-                  destPage = pageIndex + 1; // 1-based
+            try {
+              const raw  = a.dest || a.action?.dest;
+              if (raw) {
+                const dest = typeof raw === 'string'
+                  ? await pdfDoc.getDestination(raw) : raw;
+                if (dest?.[0]) {
+                  destPage = (await pdfDoc.getPageIndex(dest[0])) + 1;
                 }
-              } catch { /* skip */ }
-            } else if (a.action?.type === 'GoTo' && a.action.dest) {
-              try {
-                const dest = typeof a.action.dest === 'string'
-                  ? await pdfDoc.getDestination(a.action.dest)
-                  : a.action.dest;
-                if (dest && dest[0]) {
-                  const ref = dest[0];
-                  const pageIndex = await pdfDoc.getPageIndex(ref);
-                  destPage = pageIndex + 1;
-                }
-              } catch { /* skip */ }
-            }
-            if (destPage !== null) {
-              links.push({ destPage, rect: a.rect }); // rect: [x1,y1,x2,y2] in PDF coords
-            }
+              }
+            } catch { /* skip */ }
+            if (destPage !== null) links.push({ destPage, rect: a.rect });
           }
           if (links.length) result[pg] = links;
-        } catch { /* skip page */ }
+        } catch { /* skip */ }
       }
       setPageLinks(result);
+      console.log('[PDF Links extracted]', result);
     };
-
     extractLinks();
   }, [allReady, pdfDoc, totalPages]);
 
-  /* ── Handle click on a BookPage image ───────────────────────────────── 
-     Convert click coords → PDF coords → check if inside any link rect  */
+  /* ── PDF link click handler ── */
   const handlePageClick = (e, pdfPageNum) => {
     const links = pageLinks[pdfPageNum];
-    if (!links || !links.length) return;
-
-    const img   = e.currentTarget.querySelector('img');
+    if (!links?.length) return;
+    const img = e.currentTarget.querySelector('img');
     if (!img) return;
-
     const rect  = img.getBoundingClientRect();
-    const relX  = e.clientX - rect.left;
-    const relY  = e.clientY - rect.top;
-
-    // Rendered image size
-    const rendW = rect.width;
-    const rendH = rect.height;
-
-    // PDF page natural size (A4 ≈ 595×842 pts)
-    const pdfW  = 595;
-    const pdfH  = 842;
-
-    // Map click to PDF coordinate space (PDF y is bottom-up)
-    const pdfX = (relX / rendW) * pdfW;
-    const pdfY = pdfH - (relY / rendH) * pdfH;
-
+    const pdfX  = ((e.clientX - rect.left) / rect.width) * 595;
+    const pdfY  = 842 - ((e.clientY - rect.top) / rect.height) * 842;
     for (const link of links) {
       const [x1, y1, x2, y2] = link.rect;
       if (pdfX >= x1 && pdfX <= x2 && pdfY >= y1 && pdfY <= y2) {
@@ -208,10 +179,7 @@ const MagazinePagesPage = () => {
           {pdfSrc ? (
             <Document
               file={pdfSrc}
-              onLoadSuccess={(pdf) => {
-                onDocumentLoadSuccess(pdf);
-                onDocumentLoad(pdf);
-              }}
+              onLoadSuccess={onDocumentLoadSuccess}
               loading={
                 <div className={styles.loadingBox}>
                   <span className={styles.spinner} />
@@ -226,7 +194,7 @@ const MagazinePagesPage = () => {
             >
               {numPages && (
                 <>
-                  {/* ── Step 1: Hidden preload layer ── */}
+                  {/* ── Step 1: Hidden preload ── */}
                   <div className={styles.preloadLayer} aria-hidden="true">
                     {!allReady && (
                       <div className={styles.preloadProgress}>
@@ -255,20 +223,35 @@ const MagazinePagesPage = () => {
                             onRenderSuccess={() => {
                               const canvas = pageCanvasRefs.current[pg];
                               if (!canvas) return;
-                              try {
-                                const w = canvas.width;
-                                const h = canvas.height;
-                                const tmp = document.createElement('canvas');
-                                tmp.width = w;
-                                tmp.height = h;
-                                const ctx = tmp.getContext('2d');
-                                ctx.fillStyle = '#ffffff';
-                                ctx.fillRect(0, 0, w, h);
-                                ctx.drawImage(canvas, 0, 0);
-                                const dataURL = tmp.toDataURL('image/jpeg', 0.92);
-                                setPageImages((prev) => ({ ...prev, [pg]: dataURL }));
-                              } catch {
-                                setPageImages((prev) => ({ ...prev, [pg]: 'error' }));
+
+                              const capture = () => {
+                                try {
+                                  const w = canvas.width;
+                                  const h = canvas.height;
+                                  const tmp = document.createElement('canvas');
+                                  tmp.width = w;
+                                  tmp.height = h;
+                                  const ctx = tmp.getContext('2d');
+                                  ctx.globalCompositeOperation = 'source-over';
+                                  ctx.fillStyle = '#ffffff';
+                                  ctx.fillRect(0, 0, w, h);
+                                  ctx.drawImage(canvas, 0, 0, w, h);
+                                  const dataURL = tmp.toDataURL('image/jpeg', 0.92);
+                                  if (dataURL.length < 1000) {
+                                    setTimeout(capture, 150);
+                                    return;
+                                  }
+                                  setPageImages((prev) => ({ ...prev, [pg]: dataURL }));
+                                } catch {
+                                  setPageImages((prev) => ({ ...prev, [pg]: 'error' }));
+                                }
+                              };
+
+                              // Safari needs extra time before pixels are ready
+                              if (isSafari) {
+                                requestAnimationFrame(() => requestAnimationFrame(capture));
+                              } else {
+                                capture();
                               }
                             }}
                           />
@@ -288,44 +271,97 @@ const MagazinePagesPage = () => {
                           aria-label="Previous"
                         >‹</button>
 
-                        <HTMLFlipBook
-                          ref={bookRef}
-                          width={pageWidth}
-                          height={pageHeight}
-                          size="fixed"
-                          minWidth={pageWidth}
-                          maxWidth={pageWidth}
-                          minHeight={pageHeight}
-                          maxHeight={pageHeight}
-                          showCover={true}
-                          mobileScrollSupport={true}
-                          onFlip={onFlip}
-                          className={styles.flipBook}
-                          flippingTime={700}
-                          usePortrait={false}
-                          drawShadow={false}
-                          maxShadowOpacity={0}
-                          startZIndex={10}
-                          style={{}}
-                        >
-                          {Array.from({ length: paddedCount }, (_, i) => {
-                            const pageNum = i + 1;
-                            const isBlank = pageNum > totalPages;
-                            const src     = pageImages[pageNum];
-                            const hasLinks = !!(pageLinks[pageNum]?.length);
-                            return (
-                              <BookPage
-                                key={i}
-                                src={src === 'error' ? null : src}
-                                width={pageWidth}
-                                height={pageHeight}
-                                isBlank={isBlank}
-                                hasLinks={hasLinks}
-                                onClick={hasLinks ? (e) => handlePageClick(e, pageNum) : undefined}
-                              />
-                            );
-                          })}
-                        </HTMLFlipBook>
+                        {/* flipWrap: position relative so corner zones sit on top */}
+                        <div className={styles.flipWrap}>
+                          <HTMLFlipBook
+                            ref={bookRef}
+                            width={pageWidth}
+                            height={pageHeight}
+                            size="fixed"
+                            minWidth={pageWidth}
+                            maxWidth={pageWidth}
+                            minHeight={pageHeight}
+                            maxHeight={pageHeight}
+                            showCover={true}
+                            mobileScrollSupport={false}
+                            onFlip={onFlip}
+                            className={styles.flipBook}
+                            flippingTime={700}
+                            usePortrait={false}
+                            drawShadow={false}
+                            maxShadowOpacity={0}
+                            startZIndex={10}
+                            style={{}}
+                          >
+                            {Array.from({ length: paddedCount }, (_, i) => {
+                              const pageNum  = i + 1;
+                              const isBlank  = pageNum > totalPages;
+                              const src      = pageImages[pageNum];
+                              return (
+                                <BookPage
+                                  key={i}
+                                  src={src === 'error' ? null : src}
+                                  width={pageWidth}
+                                  height={pageHeight}
+                                  isBlank={isBlank}
+                                />
+                              );
+                            })}
+                          </HTMLFlipBook>
+
+                          {/* ── PDF link overlay — sits above flipbook, handles link clicks ── */}
+                          {(() => {
+                            // currentPage is react-pageflip's 0-based page index
+                            // Page 0 = cover (single), then pairs: 1-2, 3-4, 5-6, 7-8...
+                            // PDF page number = flipbook index + 1
+                            const leftPdfPage  = currentPage + 1;
+                            const rightPdfPage = currentPage + 2;
+
+                            const visiblePages = currentPage === 0
+                              ? [1]
+                              : [leftPdfPage, rightPdfPage].filter(p => p >= 1 && p <= totalPages);
+
+                            return visiblePages.map((pdfPageNum, slotIndex) => {
+                              const links = pageLinks[pdfPageNum];
+                              if (!links?.length) return null;
+
+                              return links.map((link, li) => {
+                                const pdfW = 595, pdfH = 842;
+                                const [x1, y1, x2, y2] = link.rect;
+
+                                // PDF coords: origin bottom-left → convert to top-left
+                                const leftPct   = (x1 / pdfW) * 100;
+                                const topPct    = ((pdfH - y2) / pdfH) * 100;
+                                const widthPct  = ((x2 - x1) / pdfW) * 100;
+                                const heightPct = ((y2 - y1) / pdfH) * 100;
+
+                                // 2-page spread: slot 0 = left page, slot 1 = right page
+                                const xOffset = slotIndex * pageWidth;
+
+                                return (
+                                  <div
+                                    key={`${pdfPageNum}-${li}`}
+                                    className={styles.linkHotspot}
+                                    style={{
+                                      left:   `${xOffset + (leftPct / 100) * pageWidth}px`,
+                                      top:    `${(topPct / 100) * pageHeight}px`,
+                                      width:  `${(widthPct / 100) * pageWidth}px`,
+                                      height: `${(heightPct / 100) * pageHeight}px`,
+                                    }}
+                                    onClick={() => goToPage(link.destPage)}
+                                    title={`Go to page ${link.destPage}`}
+                                  />
+                                );
+                              });
+                            });
+                          })()}
+
+                          {/* ── Corner click zones ── */}
+                          <div className={`${styles.cornerZone} ${styles.cornerTL}`} onClick={goPrev} title="Previous page" />
+                          <div className={`${styles.cornerZone} ${styles.cornerBL}`} onClick={goPrev} title="Previous page" />
+                          <div className={`${styles.cornerZone} ${styles.cornerTR}`} onClick={goNext} title="Next page" />
+                          <div className={`${styles.cornerZone} ${styles.cornerBR}`} onClick={goNext} title="Next page" />
+                        </div>
 
                         <button
                           className={styles.sideBtn}
@@ -337,6 +373,18 @@ const MagazinePagesPage = () => {
 
                       <div className={styles.navBar}>
                         <span className={styles.pageIndicator}>{pageLabel}</span>
+                        <form onSubmit={handleJump} className={styles.jumpForm}>
+                          <input
+                            type="number"
+                            min="1"
+                            max={totalPages}
+                            value={jumpInput}
+                            onChange={(e) => setJumpInput(e.target.value)}
+                            placeholder="Go to page…"
+                            className={styles.jumpInput}
+                          />
+                          <button type="submit" className={styles.jumpBtn}>Go</button>
+                        </form>
                       </div>
                     </div>
                   )}
